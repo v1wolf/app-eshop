@@ -420,6 +420,13 @@ body{
       </div>
     </div>  
     <script type="text/javascript">
+
+
+let tg = window.Telegram.WebApp;
+tg.expand();
+tg.MainButton.textColor = '#FFFFFF';
+tg.MainButton.color = '#2cab37';
+
 // Create an empty array to store form data
 var dataform = [];
 
@@ -494,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Assuming this code is inside a script block
 
-Telegram.WebApp.onEvent("submit", function () {
+Telegram.WebApp.onEvent("mainButtonClicked", function () {
   var url = 'https://webhook.site/19289ff2-383b-4117-b05d-2e8f1c7ad13b'; // Replace with your server endpoint
   var chatId = tg.initDataUnsafe.user.id;
 
