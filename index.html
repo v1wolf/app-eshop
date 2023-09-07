@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Product Cards | With Quick Popup View</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #151515;
+}
+
+.container{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+/*Styles for product card*/
+
+.product .product-card{
+  z-index: 1;
+  background: #1D212B;
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 40px;
+  border-radius: 10px;
+}
+
+.product .product-card:before{
+  content: '';
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.product .product-card .product-img{
+  z-index: 1;
+  position: absolute;
+  max-width: 250px;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.product .product-card .name{
+  z-index: 2;
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 130px;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.product .product-card .price{
+  z-index: 2;
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 80px;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.product .product-card .popup-btn{
+  z-index: 2;
+  color: #fff;
+  background: #555;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/*Styles for popup view*/
+
+.product .popup-view{
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+
+.product .popup-view.active{
+  opacity: 1;
+  visibility: visible;
+}
+
+.product .popup-card{
+  position: relative;
+  display: flex;
+  width: 800px;
+  height: 500px;
+  margin: 20px;
+  transform-style: preserve-3d;
+}
+
+.product .popup-card .product-img{
+  z-index: 2;
+  background: #1D212B;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 90%;
+  transform: translateY(25px);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  
+}
+
+.product .popup-card .product-img img{
+  z-index: 2;
+  position: relative;
+  width: 250px;
+  left: -50px;
+  transform: rotateY(-180deg);
+  
+}
+
+.product .popup-card .info{
+  z-index: 2;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.product .popup-card .close-btn{
+  color: #555;
+  z-index: 3;
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.product .popup-card .info h2{
+  font-size: 40px;
+  line-height: 20px;
+  margin: 10px;
+}
+
+.product .popup-card .info h2 span{
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.product .popup-card .info p{
+  font-size: 15px;
+  margin: 10px;
+}
+
+.product .popup-card .info .price{
+  font-size: 45px;
+  font-weight: 300;
+  margin: 10px;
+}
+
+.product .popup-card .info .add-cart-btn{
+  color: #fff;
+  background: #009DD2;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 10px auto;
+  padding: 10px 50px;
+  border-radius: 20px;
+}
+
+.product .popup-card .info .add-wish{
+  color: #009DD2;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/*Responsive styles*/
+
+@media (max-width: 900px){
+  .product .popup-card{
+    flex-direction: column;
+    width: 550px;
+    height: auto;
+  }
+
+  .product .popup-card .product-img{
+    z-index: 3;
+    width: 100%;
+    height: 200px;
+    transform: translateY(0);
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .product .popup-card .product-img img{
+    left: initial;
+    max-width: 100%;
+  
+  }
+
+  .product .popup-card .info{
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .product .popup-card .info h2{
+    margin: 20px 5px 5px 5px;
+    font-size: 25px;
+  }
+
+  .product .popup-card .info h2 span{
+    font-size: 10px;
+  }
+
+  .product .popup-card .info p{
+    margin: 5px;
+    font-size: 13px;
+  }
+
+  .product .popup-card .info .price{
+    margin: 5px;
+    font-size: 30px;
+  }
+
+  .product .popup-card .info .add-cart-btn{
+    margin: 5px auto;
+    padding: 5px 40px;
+    font-size: 14px;
+  }
+
+  .product .popup-card .info .add-wish{
+    font-size: 14px;
+  }
+
+  .product .popup-card .close-btn{
+    z-index: 4;
+  }
+}
+
+
+
+ .product .popup-card.flipped {
+  transform: rotateY(180deg);
+  animation: flipAnimation 0.5s;
+}
+
+@keyframes flipAnimation {
+  0% {
+    transform: perspective(800px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(800px) rotateY(180deg);
+  }
+}
+
+.product .popup-card .form {
+  z-index: 2;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  border-radius: 10px;
+  transform: rotateY(180deg); /* Rotate to show the form on the flipped side */
+}
+
+.product .popup-card.flipped .form {
+  transform: rotateY(180deg); /* Rotate back to show the form on the front side */
+  display: block;
+}
+
+
+.product .popup-card .form h2 {
+  font-size: 28px;
+  margin: 10px;
+  text-align: center;
+}
+
+.product .popup-card .form form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product .popup-card .form label {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.product .popup-card .form input,
+.product .popup-card .form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.product .popup-card .form button {
+  background: #009DD2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.product .popup-card .form button:hover {
+  background: #0077A8;
+}
+
+
+.product .popup-card.flipped .info {
+  display: none;
+}
+
+
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="product">
+        <div class="product-card">
+          <h2 class="name">Nike Shoe</h2>
+          <span class="price">$120.00</span>
+          <a class="popup-btn">Quick View</a>
+          <img src="https://parfumdrops.com/wp-content/uploads/2020/08/makeup-kit-products-png-png-all-makeup-products-png-1417_1063.png" class="product-img" alt="">
+        </div>
+        <div class="popup-view">
+          <div class="popup-card">
+            <a><i class="fas fa-times close-btn"></i></a>
+            <div class="product-img">
+              <img src="https://parfumdrops.com/wp-content/uploads/2020/08/makeup-kit-products-png-png-all-makeup-products-png-1417_1063.png" alt="">
+            </div>
+            <div class="info">
+              <h2>Nike Shoe<br><span>Men's Sport</span></h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <span class="price">$120.00</span>
+              <a href="#" class="add-cart-btn">Pre-Commande</a>
+            </div>
+            <div class="form">
+    <h2>Contact Us</h2>
+    <form action="#">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+    <script type="text/javascript">
+// Create an empty array to store form data
+var dataform = [];
+
+document.addEventListener("DOMContentLoaded", function () {
+  var popupViews = document.querySelectorAll(".popup-view");
+  var popupBtns = document.querySelectorAll(".popup-btn");
+  var closeBtns = document.querySelectorAll(".close-btn");
+  var addCartBtns = document.querySelectorAll(".add-cart-btn");
+
+  // JavaScript for displaying popup view
+  var popup = function (popupClick) {
+    popupViews[popupClick].classList.add("active");
+  };
+
+  popupBtns.forEach((popupBtn, i) => {
+    popupBtn.addEventListener("click", () => {
+      popup(i);
+    });
+  });
+
+  // JavaScript for closing popup view
+  closeBtns.forEach((closeBtn) => {
+    closeBtn.addEventListener("click", () => {
+      popupViews.forEach((popupView) => {
+        popupView.classList.remove("active");
+        var popupCard = popupView.querySelector(".popup-card");
+        popupCard.classList.remove("flipped"); // Ensure the flipped class is removed
+      });
+    });
+  });
+
+  // JavaScript for flipping popup card on "Add to Cart" button click
+  addCartBtns.forEach((addCartBtn, i) => {
+    addCartBtn.addEventListener("click", () => {
+      var popupCard = popupViews[i].querySelector(".popup-card");
+      popupCard.classList.toggle("flipped");
+    });
+  });
+
+  // Find the form element
+  var form = document.querySelector("form");
+
+  // Add an event listener to the form submission
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Get the values of the form fields
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var message = document.getElementById("message").value;
+
+    // Create an object to represent the form data
+    var formData = {
+      name: name,
+      email: email,
+      message: message,
+    };
+
+    // Push the formData object into the dataform array
+    dataform.push(formData);
+
+    // Optionally, you can log the data to the console for testing purposes
+    console.log("Data submitted:", formData);
+
+    // Clear the form fields (optional)
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("message").value = "";
+  });
+});
+
+
+// Assuming this code is inside a script block
+
+Telegram.WebApp.onEvent("submit", function () {
+  var url = 'https://webhook.site/19289ff2-383b-4117-b05d-2e8f1c7ad13b'; // Replace with your server endpoint
+  var chatId = tg.initDataUnsafe.user.id;
+
+  // Create an object to send as the request body
+  var requestData = {
+    dataform: dataform, // Assuming dataform is a global array
+    chatId: chatId,
+  };
+
+  // Send a POST request to the server
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    body: JSON.stringify(requestData), // Convert the requestData object to JSON
+  })
+    .then(function (response) {
+      if (response.ok) {
+        console.log('Data sent successfully.');
+        // Close the Telegram window or perform any other actions
+        tg.close();
+      } else {
+        console.log('Error sending data.');
+      }
+    })
+    .catch(function (error) {
+      console.error('An error occurred:', error);
+    });
+});
+
+    </script>
+  </body>
+</html>
