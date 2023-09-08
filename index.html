@@ -426,117 +426,66 @@ body{
 let tg = window.Telegram.WebApp;
 tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#2cab37';
-tg.MainButton.show();
+tg.MainButton.color = '#cc2b5e';
 // Create an empty array to store form data
-var dataform = [];
+  var dataform = [];
 
-document.addEventListener("DOMContentLoaded", function () {
-  var popupViews = document.querySelectorAll(".popup-view");
-  var popupBtns = document.querySelectorAll(".popup-btn");
-  var closeBtns = document.querySelectorAll(".close-btn");
-  var addCartBtns = document.querySelectorAll(".add-cart-btn");
-
-  // JavaScript for displaying popup view
-  var popup = function (popupClick) {
-    popupViews[popupClick].classList.add("active");
-  };
-
-  popupBtns.forEach((popupBtn, i) => {
-    popupBtn.addEventListener("click", () => {
-      popup(i);
-    });
-  });
-
-  // JavaScript for closing popup view
-  closeBtns.forEach((closeBtn) => {
-    closeBtn.addEventListener("click", () => {
-      popupViews.forEach((popupView) => {
-        popupView.classList.remove("active");
-        var popupCard = popupView.querySelector(".popup-card");
-        popupCard.classList.remove("flipped"); // Ensure the flipped class is removed
-      });
-    });
-  });
-
-  // JavaScript for flipping popup card on "Add to Cart" button click
-  addCartBtns.forEach((addCartBtn, i) => {
-    addCartBtn.addEventListener("click", () => {
-      var popupCard = popupViews[i].querySelector(".popup-card");
-      popupCard.classList.toggle("flipped");
-    });
-  });
-
-  // Find the form element using the ID
-  var form = document.getElementById("contact-form");
-
-  // Add an event listener to the form submission
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    // Get the values of the form fields
+  function isFormValid() {
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
     var message = document.getElementById("message").value;
+    
+    return name.trim() !== '' && email.trim() !== '' && message.trim() !== '';
+  }
 
-    // Create an object to represent the form data
+  function toggleMainButton() {
+    var tg = window.Telegram.WebApp;
+    if (isFormValid()) {
+      tg.MainButton.show();
+    } else {
+      tg.MainButton.hide();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var nameInput = document.getElementById("name");
+    var emailInput = document.getElementById("email");
+    var messageInput = document.getElementById("message");
+
+    nameInput.addEventListener("input", toggleMainButton);
+    emailInput.addEventListener("input", toggleMainButton);
+    messageInput.addEventListener("input", toggleMainButton);
+
+    toggleMainButton();
+  });
+
+  Telegram.WebApp.onEvent("mainButtonClicked", function () {
     var formData = {
-      name: name,
-      email: email,
-      message: message,
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      message: document.getElementById("message").value,
     };
 
-    // Push the formData object into the dataform array
     dataform.push(formData);
 
-    // Optionally, you can log the data to the console for testing purposes
-    console.log("Data submitted:", formData);
+    var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
+    var chatId = tg.initDataUnsafe.user.id;
+    var requestData = {
+      dataform: dataform,
+      chatId: chatId,
+    };
 
-    // Clear the form fields (optional)
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("message").value = "";
-  });
-});
-
-
-// Assuming this code is inside a script block
-
-Telegram.WebApp.onEvent("mainButtonClicked", function () {
-  // Create an object to represent the form data
-  var formData = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    message: document.getElementById("message").value,
-  };
-
-  // Push the formData object into the dataform array
-  dataform.push(formData);
-
-  // Replace this URL with your server endpoint
-  var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
-
-  // Get the user's chat ID
-  var chatId = tg.initDataUnsafe.user.id;
-
-  // Create an object to send as the request body
-  var requestData = {
-    dataform: dataform,
-    chatId: chatId,
-  };
-
-  // Send a POST request to the server
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-    body: JSON.stringify(requestData),
-  })
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify(requestData),
+    })
     .then(function (response) {
       if (response.ok) {
         console.log('Data sent successfully.');
-        tg.close(); // Close the Telegram window or perform other actions
+        tg.close();
       } else {
         console.log('Error sending data.');
       }
@@ -544,7 +493,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
     .catch(function (error) {
       console.error('An error occurred:', error);
     });
-});
+  });
 
     </script>
   </body>
