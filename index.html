@@ -235,6 +235,7 @@ body{
     flex-direction: column;
     width: 550px;
     height: auto;
+    max-height: 80vh;
   }
 
   .product .popup-card .product-img{
@@ -373,6 +374,17 @@ body{
 
 .product .popup-card.flipped .info {
   display: none;
+}
+
+
+/* Ensure the message input field remains visible when the keyboard appears */
+.product .popup-card .form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical; /* Allow vertical resizing of the textarea */
+  min-height: 100px; /* Set a minimum height for the textarea */
 }
 
 
