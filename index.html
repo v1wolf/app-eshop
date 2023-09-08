@@ -43,8 +43,6 @@ body{
   height: 400px;
   margin: 40px;
   border-radius: 10px;
-  overflow-y: auto; /* Add this line to enable vertical scrolling */
-  max-height: 500px; /* Adjust the max-height as needed */
 }
 
 .product .product-card:before{
@@ -324,7 +322,6 @@ body{
   padding: 40px;
   border-radius: 10px;
   transform: rotateY(180deg); /* Rotate to show the form on the flipped side */
-  max-height: 300px; /* Adjust the max-height as needed */
 }
 
 .product .popup-card.flipped .form {
@@ -414,6 +411,8 @@ body{
 
       <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">Submit</button>
     </form>
             </div>
           </div>
@@ -426,65 +425,104 @@ body{
 let tg = window.Telegram.WebApp;
 tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#cc2b5e';
+tg.MainButton.color = '#E056FD';
+tg.MainButton.show();
 // Create an empty array to store form data
-  var dataform = [];
+var dataform = [];
 
-  function isFormValid() {
+document.addEventListener("DOMContentLoaded", function () {
+  var popupViews = document.querySelectorAll(".popup-view");
+  var popupBtns = document.querySelectorAll(".popup-btn");
+  var closeBtns = document.querySelectorAll(".close-btn");
+  var addCartBtns = document.querySelectorAll(".add-cart-btn");
+
+  // JavaScript for displaying popup view
+  var popup = function (popupClick) {
+    popupViews[popupClick].classList.add("active");
+  };
+
+  popupBtns.forEach((popupBtn, i) => {
+    popupBtn.addEventListener("click", () => {
+      popup(i);
+    });
+  });
+
+  // JavaScript for closing popup view
+  closeBtns.forEach((closeBtn) => {
+    closeBtn.addEventListener("click", () => {
+      popupViews.forEach((popupView) => {
+        popupView.classList.remove("active");
+        var popupCard = popupView.querySelector(".popup-card");
+        popupCard.classList.remove("flipped"); // Ensure the flipped class is removed
+      });
+    });
+  });
+
+  // JavaScript for flipping popup card on "Add to Cart" button click
+  addCartBtns.forEach((addCartBtn, i) => {
+    addCartBtn.addEventListener("click", () => {
+      var popupCard = popupViews[i].querySelector(".popup-card");
+      popupCard.classList.toggle("flipped");
+    });
+  });
+
+  // Find the form element using the ID
+  var form = document.getElementById("contact-form");
+
+  // Add an event listener to the form submission
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Get the values of the form fields
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
     var message = document.getElementById("message").value;
-    
-    return name.trim() !== '' && email.trim() !== '' && message.trim() !== '';
-  }
 
-  function toggleMainButton() {
-    var tg = window.Telegram.WebApp;
-    if (isFormValid()) {
-      tg.MainButton.show();
-    } else {
-      tg.MainButton.hide();
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    var nameInput = document.getElementById("name");
-    var emailInput = document.getElementById("email");
-    var messageInput = document.getElementById("message");
-
-    nameInput.addEventListener("input", toggleMainButton);
-    emailInput.addEventListener("input", toggleMainButton);
-    messageInput.addEventListener("input", toggleMainButton);
-
-    toggleMainButton();
-  });
-
-  Telegram.WebApp.onEvent("mainButtonClicked", function () {
+    // Create an object to represent the form data
     var formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      message: document.getElementById("message").value,
+      name: name,
+      email: email,
+      message: message,
     };
 
+    // Push the formData object into the dataform array
     dataform.push(formData);
 
-    var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
-    var chatId = tg.initDataUnsafe.user.id;
-    var requestData = {
-      dataform: dataform,
-      chatId: chatId,
-    };
+    // Optionally, you can log the data to the console for testing purposes
+    console.log("Data submitted:", formData);
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify(requestData),
-    })
+    // Clear the form fields (optional)
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("message").value = "";
+  });
+});
+
+
+// Assuming this code is inside a script block
+
+Telegram.WebApp.onEvent("mainButtonClicked", function () {
+  var url = 'https://webhook.site/19289ff2-383b-4117-b05d-2e8f1c7ad13b'; // Replace with your server endpoint
+  var chatId = tg.initDataUnsafe.user.id;
+
+  // Create an object to send as the request body
+  var requestData = {
+    dataform: dataform, // Assuming dataform is a global array
+    chatId: chatId,
+  };
+
+  // Send a POST request to the server
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    body: JSON.stringify(requestData), // Convert the requestData object to JSON
+  })
     .then(function (response) {
       if (response.ok) {
         console.log('Data sent successfully.');
+        // Close the Telegram window or perform any other actions
         tg.close();
       } else {
         console.log('Error sending data.');
@@ -493,7 +531,7 @@ tg.MainButton.color = '#cc2b5e';
     .catch(function (error) {
       console.error('An error occurred:', error);
     });
-  });
+});
 
     </script>
   </body>
