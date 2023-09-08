@@ -235,7 +235,6 @@ body{
     flex-direction: column;
     width: 550px;
     height: auto;
-    max-height: 80vh;
   }
 
   .product .popup-card .product-img{
@@ -377,33 +376,6 @@ body{
 }
 
 
-/* Add this CSS to your existing styles */
-
-/* This style ensures that the page can scroll when the input field is focused */
-input:focus, textarea:focus {
-  position: relative;
-  z-index: 1;
-}
-
-/* This style scrolls the page when an input field or textarea is focused */
-input:focus, textarea:focus {
-  position: relative;
-  z-index: 1;
-}
-
-/* This style controls the scrolling behavior */
-input:focus, textarea:focus {
-  position: relative;
-  z-index: 1;
-}
-
-/* Adjust the scroll offset as needed */
-input:focus, textarea:focus {
-  position: relative;
-  z-index: 1;
-  scroll-margin-top: 100px; /* You can adjust this value to control the scroll offset */
-}
-
     </style>
   </head>
   <body>
@@ -432,13 +404,13 @@ input:focus, textarea:focus {
     <h2>Contact Us</h2>
     <form id="contact-form" action="#">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" tabindex="1" required>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" tabindex="2" required>
 
       <label for="message">Message:</label>
-      <textarea id="message" name="message" required></textarea>
+      <textarea id="message" name="message" tabindex="3" required></textarea>
     </form>
             </div>
           </div>
@@ -451,7 +423,8 @@ input:focus, textarea:focus {
 let tg = window.Telegram.WebApp;
 tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#FF00FF';
+tg.MainButton.color = '#2cab37';
+tg.MainButton.show();
 // Create an empty array to store form data
 var dataform = [];
 
@@ -488,8 +461,6 @@ document.addEventListener("DOMContentLoaded", function () {
     addCartBtn.addEventListener("click", () => {
       var popupCard = popupViews[i].querySelector(".popup-card");
       popupCard.classList.toggle("flipped");
-      tg.MainButton.show();
-      tg.MainButton.setText('Envoyer');
     });
   });
 
@@ -541,7 +512,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   dataform.push(formData);
 
   // Replace this URL with your server endpoint
-  var url = 'https://webhook.site/977aa45a-2592-4678-ac97-95895ee4b40e';
+  var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
 
   // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
