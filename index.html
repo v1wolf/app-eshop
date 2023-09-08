@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
     <title>With Quick Popup View</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -294,6 +295,24 @@ body{
   .product .popup-card .close-btn{
     z-index: 4;
   }
+
+    /* Styles for the popup view when the keyboard is active */
+  .product .popup-card.flipped .form {
+    transform: translateY(-50%); /* Adjust the vertical position */
+    margin-top: 0; /* Remove margin from the top */
+    height: 100%; /* Make the form fill the available height */
+  }
+
+  .product .popup-card .form h2 {
+    font-size: 24px; /* Reduce the font size for smaller screens */
+  }
+
+  .product .popup-card .form label,
+  .product .popup-card .form input,
+  .product .popup-card .form textarea {
+    font-size: 14px; /* Reduce font sizes for form elements */
+  }
+  
 }
 
 
