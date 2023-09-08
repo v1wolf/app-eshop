@@ -411,8 +411,6 @@ body{
 
       <label for="message">Message:</label>
       <textarea id="message" name="message" required></textarea>
-
-      <button type="submit">Submit</button>
     </form>
             </div>
           </div>
@@ -425,7 +423,7 @@ body{
 let tg = window.Telegram.WebApp;
 tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#E056FD';
+tg.MainButton.color = '#2cab37';
 tg.MainButton.show();
 // Create an empty array to store form data
 var dataform = [];
@@ -502,12 +500,25 @@ document.addEventListener("DOMContentLoaded", function () {
 // Assuming this code is inside a script block
 
 Telegram.WebApp.onEvent("mainButtonClicked", function () {
-  var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b'; // Replace with your server endpoint
+  // Create an object to represent the form data
+  var formData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value,
+  };
+
+  // Push the formData object into the dataform array
+  dataform.push(formData);
+
+  // Replace this URL with your server endpoint
+  var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
+
+  // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
 
   // Create an object to send as the request body
   var requestData = {
-    dataform: dataform, // Assuming dataform is a global array
+    dataform: dataform,
     chatId: chatId,
   };
 
@@ -517,13 +528,12 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
     },
-    body: JSON.stringify(requestData), // Convert the requestData object to JSON
+    body: JSON.stringify(requestData),
   })
     .then(function (response) {
       if (response.ok) {
         console.log('Data sent successfully.');
-        // Close the Telegram window or perform any other actions
-        tg.close();
+        tg.close(); // Close the Telegram window or perform other actions
       } else {
         console.log('Error sending data.');
       }
