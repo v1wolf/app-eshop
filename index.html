@@ -445,6 +445,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+
+   // Get a reference to the message textarea
+  var messageField = document.getElementById("message");
+
+  // Add a focus event listener to the message field
+  messageField.addEventListener("focus", function () {
+    // Calculate the position to scroll to (you can adjust this value as needed)
+    var scrollPosition = messageField.getBoundingClientRect().top - 20;
+
+    // Scroll the page to the calculated position
+    window.scroll({
+      top: scrollPosition,
+      behavior: "smooth", // You can use "auto" for an instant scroll
+    });
+  });
+
+  
   // JavaScript for closing popup view
   closeBtns.forEach((closeBtn) => {
     closeBtn.addEventListener("click", () => {
@@ -514,7 +531,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   dataform.push(formData);
 
   // Replace this URL with your server endpoint
-  var url = 'https://api.retool.com/v1/workflows/31eb175c-3fe4-4b7d-8e29-eeb21b244c41/startTrigger?workflowApiKey=retool_wk_3f3ebf8e1a284ce49631f68390c75a90';
+  var url = 'https://webhook.site/977aa45a-2592-4678-ac97-95895ee4b40e';
 
   // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
