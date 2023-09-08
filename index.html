@@ -446,18 +446,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-   // Get a reference to the message textarea
+  // Get a reference to the message textarea
   var messageField = document.getElementById("message");
 
   // Add a focus event listener to the message field
   messageField.addEventListener("focus", function () {
-    // Calculate the position to scroll to (you can adjust this value as needed)
-    var scrollPosition = messageField.getBoundingClientRect().top - 20;
-
-    // Scroll the page to the calculated position
-    window.scroll({
-      top: scrollPosition,
+    // Scroll the message field into view
+    messageField.scrollIntoView({
       behavior: "smooth", // You can use "auto" for an instant scroll
+      block: "center",    // Scroll so that the field is centered vertically
+      inline: "nearest"  // Scroll so that the field is nearest horizontally
     });
   });
 
