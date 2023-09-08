@@ -2,8 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>With Quick Popup View</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
@@ -109,14 +108,13 @@ body{
 
 /*Styles for popup view*/
 
-/*Styles for popup view*/
-.product .popup-view {
+.product .popup-view{
   z-index: 2;
   background: rgba(255, 255, 255, 0.5);
-  position: fixed; /* Change from 'absolute' to 'fixed' */
-  top: 0; /* Add this property */
+  position: fixed;
+  top: 0;
   right: 0;
-  bottom: 0; /* Add this property */
+  bottom: 0;
   left: 0;
   display: flex;
   justify-content: center;
@@ -295,24 +293,6 @@ body{
   .product .popup-card .close-btn{
     z-index: 4;
   }
-
-    /* Styles for the popup view when the keyboard is active */
-  .product .popup-card.flipped .form {
-    transform: translateY(-50%); /* Adjust the vertical position */
-    margin-top: 0; /* Remove margin from the top */
-    height: 100%; /* Make the form fill the available height */
-  }
-
-  .product .popup-card .form h2 {
-    font-size: 24px; /* Reduce the font size for smaller screens */
-  }
-
-  .product .popup-card .form label,
-  .product .popup-card .form input,
-  .product .popup-card .form textarea {
-    font-size: 14px; /* Reduce font sizes for form elements */
-  }
-  
 }
 
 
@@ -332,17 +312,16 @@ body{
 }
 
 .product .popup-card .form {
- z-index: 2;
+  z-index: 2;
   background: #fff;
   display: none;
   flex-direction: column;
   width: 100%;
-  max-height: 500px; /* Set a maximum height for the form */
-  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  height: 100%;
   box-sizing: border-box;
   padding: 40px;
   border-radius: 10px;
-  transform: rotateY(180deg);
+  transform: rotateY(180deg); /* Rotate to show the form on the flipped side */
 }
 
 .product .popup-card.flipped .form {
