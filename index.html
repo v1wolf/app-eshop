@@ -423,8 +423,8 @@ body{
 let tg = window.Telegram.WebApp;
 tg.expand();
 tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#2cab37';
-tg.MainButton.show();
+tg.MainButton.color = '#0047ab';
+
 // Create an empty array to store form data
 var dataform = [];
 
@@ -461,6 +461,8 @@ document.addEventListener("DOMContentLoaded", function () {
     addCartBtn.addEventListener("click", () => {
       var popupCard = popupViews[i].querySelector(".popup-card");
       popupCard.classList.toggle("flipped");
+      tg.MainButton.show();
+       tg.MainButton.setText('Envoyer')
     });
   });
 
@@ -512,7 +514,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   dataform.push(formData);
 
   // Replace this URL with your server endpoint
-  var url = 'https://webhook.site/977aa45a-2592-4678-ac97-95895ee4b40e';
+  var url = 'https://hooks.airtable.com/workflows/v1/genericWebhook/appJlYfdyYSsNLbp8/wflf2OIMIHcTHNhhM/wtrMAnQq8FsU3tgej';
 
   // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
