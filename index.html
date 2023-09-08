@@ -377,16 +377,32 @@ body{
 }
 
 
-/* Ensure the message input field remains visible when the keyboard appears */
-.product .popup-card .form textarea {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: vertical; /* Allow vertical resizing of the textarea */
-  min-height: 100px; /* Set a minimum height for the textarea */
+/* Add this CSS to your existing styles */
+
+/* This style ensures that the page can scroll when the input field is focused */
+input:focus, textarea:focus {
+  position: relative;
+  z-index: 1;
 }
 
+/* This style scrolls the page when an input field or textarea is focused */
+input:focus, textarea:focus {
+  position: relative;
+  z-index: 1;
+}
+
+/* This style controls the scrolling behavior */
+input:focus, textarea:focus {
+  position: relative;
+  z-index: 1;
+}
+
+/* Adjust the scroll offset as needed */
+input:focus, textarea:focus {
+  position: relative;
+  z-index: 1;
+  scroll-margin-top: 100px; /* You can adjust this value to control the scroll offset */
+}
 
     </style>
   </head>
@@ -525,7 +541,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   dataform.push(formData);
 
   // Replace this URL with your server endpoint
-  var url = 'https://webhook.site/2a72f40e-da7a-42c2-a2f7-d74746bd3d9b';
+  var url = 'https://webhook.site/977aa45a-2592-4678-ac97-95895ee4b40e';
 
   // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
