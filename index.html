@@ -43,6 +43,8 @@ body{
   height: 400px;
   margin: 40px;
   border-radius: 10px;
+  overflow-y: auto; /* Add this line to enable vertical scrolling */
+  max-height: 500px; /* Adjust the max-height as needed */
 }
 
 .product .product-card:before{
@@ -322,6 +324,7 @@ body{
   padding: 40px;
   border-radius: 10px;
   transform: rotateY(180deg); /* Rotate to show the form on the flipped side */
+  max-height: 300px; /* Adjust the max-height as needed */
 }
 
 .product .popup-card.flipped .form {
