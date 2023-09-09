@@ -310,6 +310,18 @@ body{
   100% {
     transform: perspective(800px) rotateY(180deg);
   }
+  .product .popup-card .form {
+  z-index: 2;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  border-radius: 10px;
+  transform: rotateY(180deg); /* Rotate to show the form on the flipped side */
+  }
 }
 
 .product .popup-card .form {
@@ -351,7 +363,7 @@ body{
 .product .popup-card .form input,
 .product .popup-card .form textarea {
   padding: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -376,9 +388,10 @@ body{
   display: none;
 }
 
+/* Ensure the form container scrolls when the keyboard is active */
 #form-container {
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: calc(100vh - 100px); /* Adjust the 100px as needed for your layout */
+  overflow-y: auto;
+  max-height: calc(100vh - 200px); /* Adjust the 100px as needed for your layout */
 }
     </style>
   </head>
