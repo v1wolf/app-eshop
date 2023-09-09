@@ -534,8 +534,9 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   dataform.push(formData);
 
   // Replace this URL with your server endpoint
-  var url = 'https://hkdk.events/jA6rMeQuQjoq';
-
+  // var url = 'https://hkdk.events/jA6rMeQuQjoq';
+    var url = 'https://exm-45.free.beeceptor.com';
+  
   // Get the user's chat ID
   var chatId = tg.initDataUnsafe.user.id;
 
@@ -546,52 +547,27 @@ Telegram.WebApp.onEvent("mainButtonClicked", function () {
   };
 
   // Send a POST request to the server
-//   fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json;charset=UTF-8',
-//     },
-//     body: JSON.stringify(requestData),
-//   })
-//     .then(function (response) {
-//       if (response.ok) {
-//         console.log('Data sent successfully.');
-//         tg.close(); // Close the Telegram window or perform other actions
-//       } else {
-//         console.log('Error sending data.');
-//       }
-//     })
-//     .catch(function (error) {
-//       console.error('An error occurred:', error);
-//     });
-// });
-
-  // trello 
-  const apiKey = '12046028e719b14f43efc682ccb47f7f';
-const accessToken = 'ATTA677cb351a03011607f54c679d16cebaccc8ddce1dbdfe85ba638ce688a649f336FFBE9F0';
-const boardId = '64fc565a4589bbb00fef77b2';
-const cardData = {
-  name: "orders",
-  desc: JSON.stringify(requestData), // Replace with your JSON data
-};
-
-const apiUrl = `https://api.trello.com/1/boards/${boardId}/cards?key=${apiKey}&token=${accessToken}`;
-
-fetch(apiUrl, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(cardData),
-})
-  .then(response => response.json())
-  .then(data => {
-    console.log('New card created:', data);
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    body: JSON.stringify(requestData),
   })
-  .catch(error => {
-    console.error('Error creating card:', error);
-  });
+    .then(function (response) {
+      if (response.ok) {
+        console.log('Data sent successfully.');
+        tg.close(); // Close the Telegram window or perform other actions
+      } else {
+        console.log('Error sending data.');
+      }
+    })
+    .catch(function (error) {
+      console.error('An error occurred:', error);
+    });
 });
+
+
     </script>
   </body>
 </html>
